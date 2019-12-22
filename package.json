@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "build:cli": "lerna run build --scope={@gen-codes/ink-schema-form,@gen-codes/cli}",
+    "dev:cli": "lerna run dev --scope={@gen-codes/ink-schema-form,@gen-codes/cli}"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "3.10.6"
+  },
+  "resolutions": {
+    "graphql": "14.0.2"
+  }
+}
