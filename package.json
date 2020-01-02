@@ -5,8 +5,8 @@
     "dev:cli": "lerna run dev --scope={@gen-codes/ink-schema-form,@gen-codes/cli,@gen-codes/ink-cli,@gen-codes/use-carlo-react-hook,@gen-codes/use-carlo-proxy-react-hook,@gen-codes/carlo-editor-cli-plugin}",
     "run:cli": "concurrently 'yarn dev:cli' 'cd packages/ink-schema-form && yarn run dev' 'cd packages/carlo-editor-cli-plugin && yarn dev' 'cd packages/ink-cli && yarn dev' 'cd packages/cli && yarn dev' ",
     "cli": "cd packages/cli && node build/cli.js",
-    "build:web": "lerna run build --scope={@gen-codes/ink-web,@gen-codes/ink-schema-form,@gen-codes/web-cli}",
-    "dev:web": "lerna run dev --scope={@gen-codes/ink-web,@gen-codes/ink-schema-form,@gen-codes/web-cli,@gen-codes/ink-cli}"
+    "build:web": "lerna run build --scope={@gen-codes/ink-web,@gen-codes/ink-schema-form,@gen-codes/web}",
+    "dev:web": "lerna run dev --scope={@gen-codes/ink-web,@gen-codes/ink-schema-form,@gen-codes/web,@gen-codes/ink-cli}"
   },
   "workspaces": {
     "packages": [
