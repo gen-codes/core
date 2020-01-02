@@ -1,0 +1,36 @@
+{
+  "name": "@gen-codes/ink-web",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.0.0"
+  },
+  "dependencies": {
+    "cli-highlight": "^2.1.4",
+    "downshift": "^4.0.0",
+    "js-yaml": "^3.13.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-select": "^3.0.8",
+    "semver": "^6.0.0",
+    "ui-box": "^3.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "scripts": {
+    "build": "BABEL_ENV=cjs babel src --out-dir=dist",
+    "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist/index.js"
+  ]
+}

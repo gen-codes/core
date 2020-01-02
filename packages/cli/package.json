@@ -13,11 +13,16 @@
 		"prepare": "pastel build"
 	},
 	"dependencies": {
+		"@gen-codes/ink-cli": "1.0.0",
 		"@gen-codes/ink-schema-form": "1.0.0",
-		"pasteljs": "^1.0.2"
+		"@gen-codes/carlo-editor-cli-plugin": "1.0.0",
+		"@gen-codes/use-carlo-react-hook": "1.0.0",
+		"carlo": "^0.9.46",
+		"pastel": "^1.0.3",
+		"ui": "^0.2.4"
 	},
 	"devDependencies": {
-		"babel-eslint": "^10.0.1",
+		"@babel/core": "^7.7.7",
 		"eslint": "^5.16.0",
 		"eslint-config-react-app": "^4.0.0",
 		"eslint-plugin-flowtype": "^3.7.0",
@@ -25,5 +30,14 @@
 		"eslint-plugin-jsx-a11y": "^6.2.1",
 		"eslint-plugin-react": "^7.13.0",
 		"eslint-plugin-react-hooks": "^1.6.0"
+	},
+	"babel": {
+		"presets": [
+			"@babel/preset-env",
+			"@babel/preset-react"
+		],
+		"plugins": [
+			"@babel/plugin-transform-async-to-generator"
+		]
 	}
 }

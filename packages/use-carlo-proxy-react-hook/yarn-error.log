@@ -1,0 +1,59 @@
+Arguments: 
+  /home/vasilis/.nvm/versions/node/v10.15.0/bin/node /home/vasilis/.nvm/versions/node/v10.15.0/bin/yarn
+
+PATH: 
+  /home/vasilis/.nvm/versions/node/v10.15.0/bin:/home/vasilis/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  10.15.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/vasilis/GenCodes/gen-codes-repo/packages/use-carlo-proxy-react-hook/package.json: Unexpected token } in JSON at position 291
+      at JSON.parse (<anonymous>)
+      at /home/vasilis/.nvm/versions/node/v10.15.0/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/home/vasilis/.nvm/versions/node/v10.15.0/lib/node_modules/yarn/lib/cli.js:304:30)
+      at /home/vasilis/.nvm/versions/node/v10.15.0/lib/node_modules/yarn/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "@gen-codes/use-carlo-proxy-react-hook",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "license": "MIT",
+    "devDependencies": {
+      "@babel/preset-env": "^7.7.7",
+      "@babel/preset-react": "^7.0.0"
+    },
+    "dependencies": {
+      "react": "^16.8.6",
+      "semver": "^6.0.0",
+    },
+    "babel": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
+      "plugins": []
+    },
+    "scripts": {
+      "build": "BABEL_ENV=cjs babel src --out-dir=dist",
+      "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
+      "prepublish": "npm run build"
+    },
+    "files": [
+      "dist/index.js"
+    ]
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

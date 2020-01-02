@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Color, Text} from 'ink'
+import { Box, Color, Text} from '@gen-codes/ink-cli'
 export default function DisplayData({formData, objectType="", countFrom=1}){
 	if(Array.isArray(formData)){
     if(formData.length && typeof(formData[0])==="string"){

@@ -1,6 +1,5 @@
 import React from 'react'
-import InkSelectInput from 'ink-select-input'
-import {Color, Text} from 'ink'
+import {Color, Text,InkSelectInput} from '@gen-codes/ink-cli'
 
 export default function SelectInput({
 	onSubmit,
@@ -8,19 +7,15 @@ export default function SelectInput({
 	onChange,
 	onFocus,
 	...props
-}) {
-	React.useEffect(() => {
-		onFocus()
-		return onBlur
-	}, [onFocus, onBlur])
+}) { 
+
 	return (
 		<InkSelectInput
 			{...props}
 			itemComponent={({isSelected, label})=>{
 				return (<Text bold={isSelected}>
 					<Color white={isSelected}
-					>{label
-					}</Color>
+					>{label}</Color>
 					</Text>)
 			}}
       color={"red"}

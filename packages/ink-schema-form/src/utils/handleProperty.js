@@ -4,6 +4,7 @@ import CheckBox from '../components/Checkbox';
 import MultiSelectInput from '../components/MultiSelectInput';
 import ArrayField from "../fields/ArrayField";
 import ObjectField from '../fields/ObjectField';
+import Editor from '../components/Editor';
 export function handleProperty(name, prop, condition = "", schema) {
   const placeholder = name
   const validate = undefined
@@ -37,7 +38,19 @@ export function handleProperty(name, prop, condition = "", schema) {
 				}
 			};
 			// multipleChoice
-		}
+    }
+    if(prop.component){
+      return {
+          name,
+          label: name,
+          placeholder: `Set ${name}`,
+          Input: Editor,
+          validate,
+          condition,
+          inputConfig: prop
+        };
+      }
+    
 	}
 	else if(typeof prop === "string") {
 		if(prop.match(/^[A-Z]/)) {
@@ -94,7 +107,10 @@ export function handleProperty(name, prop, condition = "", schema) {
 				condition,
 				validate,
 				placeholder: name,
-				Input: TextInput
+        Input: TextInput,
+        inputConfig: {
+          type: prop
+        }
 			};
 		}
 	}

@@ -1,14 +1,34 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import ObjectField from "./fields/ObjectField"
-import EventEmitter from "events"
+import {
+  useInput, Box, UncontrolledTextInput
+} from "@gen-codes/ink-cli"
+import Code from "./components/Code";
+import useCarlo from "@gen-codes/use-carlo-react-hook"
 export const FormContext = React.createContext()
-const emitter = new EventEmitter()
-emitter.setMaxListeners(100)
-export default function SchemaForm(props){
-	const [currentForm, setCurrentForm] = React.useState("")
-	return (
-		<FormContext.Provider value={{currentForm, setCurrentForm}}>
-      <ObjectField {...props}/>
-    </FormContext.Provider> 
- ) 
+
+export default function SchemaForm(props) {
+  // const {} = useCarlo()
+  const [code, setCode] =useState("")
+  const updateExternal = useCarlo(props.externalEditor)
+
+
+  const [currentForm, setCurrentForm] = React.useState("")
+  const [pressedKey, setPressedKey] = React.useState("")
+  useInput((input, key) => {
+    if(key.leftArrow || key.rightArrow || key.upArrow || key.downArrow) {
+      setPressedKey(key)
+    }
+  });
+  // return (
+  //   <Code language={"javascript"}>
+  //     const some
+  //     lala somaoer
+  //   </Code>
+  // )
+  return (
+    <FormContext.Provider value={{currentForm, setCurrentForm, pressedKey, updateExternal}}>
+      <ObjectField {...props} />
+    </FormContext.Provider>
+  )
 }

@@ -1,8 +1,8 @@
 import React, {useEffect, useContext} from 'react'
-import {Form, Field, FormSpy} from 'react-final-form'
-import {AppContext, Color, Text, Box, useInput, useApp} from 'ink'
-import InkBox from "ink-box"
+// import {Form, Field, FormSpy} from 'react-final-form'
+import { Color, Text, Box, useApp} from '@gen-codes/ink-cli'
 import yaml from "js-yaml";
+// import useInput from "../hooks/useInput"
 import Error from '../components/Error'
 import Spinner from 'ink-spinner'
 import Code from "../components/Code"
@@ -11,16 +11,36 @@ import {handleProperties} from '../utils/handleProperties';
 import {checkCondition} from '../utils/checkCondition';
 import Divider from "../components/Divider"
 import {FormContext} from "../index"
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with level `error` and below to `error.log`
+    // - Write all logs with level `info` and below to `combined.log`
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+
+
 export default function ObjectField({objectType, schema, prefix = "", ...props}) {
   const [activeField, setActiveField] = React.useState(0)
   const [submission, setSubmission] = React.useState()
   const [formData, setFormData] = React.useState(props.value || {})
   const [currentFields, setCurrentFields] = React.useState([])
-  const {currentForm, setCurrentForm} = useContext(FormContext)
+  const {currentForm, setCurrentForm, pressedKey, updateExternal} = useContext(FormContext)
 
   useEffect(() => {
     const newFields = fields.filter((field) => {
       if(field.condition) {
+        logger.info(field.condition);
+        logger.info(formData);
         return checkCondition(field.condition, formData)
       }
       return true
@@ -30,26 +50,34 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
     }
   }, [formData])
   useEffect(() => {
+    if(currentForm === prefix) {
+      if(pressedKey.leftArrow) {
+        if(activeField !== 0) {
+          setActiveField(activeField - 1)
+        }
+      }
+      if(pressedKey.rightArrow) {
+        if(activeField !== currentFields.length - 1) {
+          setActiveField(activeField + 1)
+        }
+      }
+    }
+  }, [pressedKey])
+
+  // useEffect(()=>{
+  //   if(currentForm===prefix){
+  //     enable()
+  //   }else{
+  //     disable()
+  //   }
+  // }, [currentForm])
+  useEffect(() => {
     const previousForm = currentForm
     setCurrentForm(prefix)
     return () => {
       setCurrentForm(previousForm)
     };
   }, [prefix])
-  useInput((input, key) => {
-    if(currentForm === prefix) {
-      if(key.leftArrow) {
-        if(activeField !== 0) {
-          setActiveField(activeField - 1)
-        }
-      }
-      if(key.rightArrow) {
-        if(activeField !== currentFields.length - 1) {
-          setActiveField(activeField + 1)
-        }
-      }
-    }
-  });
   const schemaProperties = schema.find(obj => obj.name === objectType).properties
   const fields = handleProperties(
     schemaProperties,
@@ -65,7 +93,6 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
       setSubmission(data)
     }
   }
-  const {exit} = useApp()
   // return (
   // <Form onSubmit={onSetSubmission}
   // >
@@ -98,7 +125,6 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
 
               },
               index,
-              arr
             ) => {
 
               return (
@@ -112,51 +138,21 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
                     {name !== "id" && <Text bold={activeField === index}>{label}: </Text>}
                     {activeField === index ? (
                       <Input
-                        // {...input}
                         {...inputConfig}
                         value={formData[name]}
                         prefix={prefix}
+                        active={true}
                         placeholder={placeholder}
-                        // previous={onPrevious}
-                        // next={onNext}
-                        onFocus={() => {}}
-                        onBlur={() => {}}
                         onChange={(data) => {
-                          // const newFields = fields.filter((field) => {
-                          // 	if(field.condition) {
-                          // 		return checkCondition(field.condition, {...formData, [name]: data})
-                          // 	}
-                          // 	return true
-                          // }).slice(0, activeField + 1)
-                          // if(newFields.length != currentFields.length) {
-                          // 	setCurrentFields(newFields)
-                          // } else {
-                          // }
                           setFormData({...formData, [name]: data})
-                          // setTimeout(() => {
-                          // 	input.onChange(data)
-
-                          // })
-
                         }}
+                        updateExternal={updateExternal}
                         onSubmit={() => {
-                          // input.onChange(formData[name])
-                          // if(meta.valid && !validating) {
                           if(activeField === currentFields.length - 1) {
-                            // props.onSubmit(formData)
                             onSetSubmission(formData)
-                            // last field, so submit
-                            // setSubmission(formData)
-                            // handleSubmit()
                           } else {
                             setActiveField(value => value + 1)
                           }
-
-                          // } else {
-                          // setActiveFieldValue(newFields[activeField])
-                          // input.onBlur() // mark as touched to show error
-                          // }
-
                         }}
                       />
                     ) : (

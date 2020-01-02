@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import SchemaForm from "@gen-codes/ink-schema-form"
-import {useApp, Box, Text} from 'ink'
+import {Tabs, Tab, useApp, Box, Text} from '@gen-codes/ink-cli'
 import schema from "../schema"
 import highlight from 'cli-highlight'
-import {Tabs, Tab} from 'ink-tab';
-
+import {getDir} from "@gen-codes/carlo-editor-cli-plugin"
+import useCarlo from "@gen-codes/use-carlo-react-hook"
 export const FormContext = React.createContext()
+
+// fs.lstatSync(__dirname+"../plugins/editor/dist")
+// const editorPath = path.dirname(require.resolve("@gen-codes/carlo-editor-cli-plugin/package.json"));
 
 export default function CliForm(props) {
   // track which is the real activeField and Form instance
@@ -13,31 +16,25 @@ export default function CliForm(props) {
   // const [stdout, setStdout] = useState("");
   const [formData, setData] = useState();
   // console.log(term)
-  const code = `
-
-
-  `
-  const {exit} = useApp()
-
-  const hl = (text, lang) => highlight(text, {language: lang, ignoreIllegals: true})
+  const updateExternal = useCarlo("")
   const [print, setPrint] = useState(false);
-  const [tab, setTab] = useState("foo");
+  // const [tab, setTab] = useState("foo");
   const [currentForm, setCurrentForm] = useState("")
   return (
     <FormContext.Provider value={{currentForm, setCurrentForm}}>
       {formData &&<Box>{JSON.stringify(formData, undefined, 2)}</Box>}
 
-      <Box flexDirection="column" alignItems="flex-end" justifyContent="space-between" textWrap="wrap">
-        <Box flexDirection="row" alignItems="flex-end" justifyContent="space-between" textWrap="wrap">
-          <Box width={"50%"} marginBottom={1} float={"left"} flexDirection={"column"}>
+      <Box flexDirection="column"  >
+          <Box  marginBottom={1} float={"left"} flexDirection={"column"}>
             <SchemaForm
+              externalEditor={getDir()}
               onSubmit={(data) => {setData(data)}}
               value={formData}
               objectType={"Element"}
               schema={schema}
             ></SchemaForm>
           </Box>
-          <Box width={"50%"} height={"100%"} justifyContent={"flex-end"} textWrap="wrap" float={"right"} flexDirection="column">
+          {/* <Box width={"50%"} height={"100%"} justifyContent={"flex-end"} textWrap="wrap" float={"right"} flexDirection="column">
 
             {tab === "foo" && <Text textWrap="wrap" >
               {hl(code, "js")}
@@ -48,14 +45,13 @@ export default function CliForm(props) {
               <Tab name="bar">Bar</Tab>
               <Tab name="baz">Baz</Tab>
             </Tabs>
-          </Box>
+          </Box> */}
 
         </Box>
         <Box width={"100%"} float={"left"}>
           <Text>
             Shortcuts: Exit/ctrl-z
     </Text>
-        </Box>
       </Box>
     </FormContext.Provider>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Color, Box} from 'ink';
+import {Color, Box} from '@gen-codes/ink-cli';
 import PropTypes from 'prop-types';
 import stringWidth from 'string-width'
 // Helpers

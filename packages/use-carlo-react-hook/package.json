@@ -1,0 +1,35 @@
+{
+  "name": "@gen-codes/use-carlo-react-hook",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/polyfill": "^7.7.0",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.0.0"
+  },
+  "dependencies": {
+    "carlo": "^0.9.46",
+    "core-js": "^3.6.1",
+    "puppeteer-core": "^2.0.0",
+    "react": "^16.8.6",
+    "regenerator-runtime": "^0.13.3",
+    "semver": "^6.0.0",
+    "ws": "^7.2.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": []
+  },
+  "scripts": {
+    "build": "BABEL_ENV=cjs babel src --out-dir=dist",
+    "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist/index.js"
+  ]
+}

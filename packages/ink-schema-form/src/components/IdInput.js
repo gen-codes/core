@@ -1,5 +1,5 @@
 import React from 'react'
-import InkTextInput from 'ink-text-input'
+import {InkTextInput} from '@gen-codes/ink-cli'
 import {getId} from '../utils/getId';
 export default function IdInput({ onBlur, onFocus, ...props }) {
 	React.useEffect(() => {

@@ -1,15 +1,11 @@
 import React, {useState} from 'react'
-import InkTextInput from 'ink-text-input'
-import {UncontrolledTextInput} from 'ink-text-input';
-import open from "open"
+import {InkTextInput} from '@gen-codes/ink-cli'
+import Editor  from "./Editor"
+
 export default function TextInput({ onBlur, onFocus, ...props }) {
-	React.useEffect(() => {
-		// open('https://sindresorhus.com');
-		onFocus()
-		return ()=>{
-      onBlur()
-    }
-  }, [onFocus, onBlur])
+  if(!["string", "number"].includes(props.type)){
+    return <Editor {...props} ></Editor>
+  }
   const [value, setValue] = useState(props.value||"")
   return <InkTextInput
     value={value}
