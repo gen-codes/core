@@ -6,16 +6,18 @@
     "fs-extra": "^8.1.0",
     "monaco-editor": "^0.19.0",
     "react": "^16.11.0",
-    "react-app-rewired": "^2.1.4",
     "react-dom": "^16.11.0",
     "react-mde": "^8.0.1",
     "react-monaco-editor": "^0.32.1",
-    "react-scripts": "^3.3.0",
     "showdown": "^1.9.1",
-    "typescript": "^3.6.4",
     "@gen-codes/use-carlo-react-hook": "1.0.0",
     "@gen-codes/use-carlo-proxy-react-hook": "1.0.0"
   },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.4",
+    "react-scripts": "^3.3.0"
+  },
+
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

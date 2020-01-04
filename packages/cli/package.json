@@ -1,43 +1,36 @@
 {
-	"name": "@gen-codes/cli",
-	"version": "1.0.0",
-	"main": "dist/index.js",
-	"license": "MIT",
-	"bin": "./build/cli.js",
-	"engines": {
-		"node": ">=8"
-	},
-	"scripts": {
-		"dev": "pastel dev",
-		"build": "pastel build",
-		"prepare": "pastel build"
-	},
-	"dependencies": {
-		"@gen-codes/ink-cli": "1.0.0",
-		"@gen-codes/ink-schema-form": "1.0.0",
-		"@gen-codes/carlo-editor-cli-plugin": "1.0.0",
-		"@gen-codes/use-carlo-react-hook": "1.0.0",
-		"carlo": "^0.9.46",
-		"pastel": "^1.0.3",
-		"ui": "^0.2.4"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.7.7",
-		"eslint": "^5.16.0",
-		"eslint-config-react-app": "^4.0.0",
-		"eslint-plugin-flowtype": "^3.7.0",
-		"eslint-plugin-import": "^2.17.2",
-		"eslint-plugin-jsx-a11y": "^6.2.1",
-		"eslint-plugin-react": "^7.13.0",
-		"eslint-plugin-react-hooks": "^1.6.0"
-	},
-	"babel": {
-		"presets": [
-			"@babel/preset-env",
-			"@babel/preset-react"
-		],
-		"plugins": [
-			"@babel/plugin-transform-async-to-generator"
-		]
-	}
+  "name": "@gen-codes/cli",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "bin": "./build/cli.js",
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "dev": "pastel dev",
+    "build": "pastel build",
+    "prepare": "pastel build"
+  },
+  "dependencies": {
+    "@gen-codes/carlo-editor-cli-plugin": "1.0.0",
+    "@gen-codes/ink-cli": "1.0.0",
+    "@gen-codes/ink-schema-form": "1.0.0",
+    "@gen-codes/use-carlo-react-hook": "1.0.0",
+    "carlo": "^0.9.46",
+    "ui": "^0.2.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "pastel": "^1.0.3"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  }
 }
