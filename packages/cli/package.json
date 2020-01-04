@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "dist/index.js",
   "license": "MIT",
   "bin": {
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
-    "pastel": "^1.0.3"
+    "pastel": "1.0.3"
   },
   "babel": {
     "presets": [
