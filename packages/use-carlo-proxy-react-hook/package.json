@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/use-carlo-proxy-react-hook",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
@@ -25,5 +25,6 @@
   },
   "files": [
     "dist/index.js"
-  ]
+  ],
+  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
 }
