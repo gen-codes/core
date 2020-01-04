@@ -1,7 +1,11 @@
 {
   "name": "@gen-codes/carlo-editor-cli-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "./getDir.js",
+  "files": [
+    "build",
+    "./getDir.js"
+  ],
   "dependencies": {
     "@gen-codes/use-carlo-proxy-react-hook": "^1.1.0",
     "@gen-codes/use-carlo-react-hook": "^1.1.0",
@@ -14,7 +18,8 @@
     "showdown": "^1.9.1"
   },
   "devDependencies": {
-    "monaco-editor-webpack-plugin": "^1.7.0"
+    "monaco-editor-webpack-plugin": "^1.7.0",
+    "react-app-rewired": "^2.1.5"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -32,5 +37,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
+  "gitHead": "4600dc26cd488b0ee7816b363c50623f876a5f08"
 }
