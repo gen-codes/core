@@ -4,7 +4,7 @@
   "main": "./getDir.js",
   "files": [
     "build",
-    "./getDir.js"
+    "getDir.js"
   ],
   "dependencies": {
     "@gen-codes/use-carlo-proxy-react-hook": "^1.1.0",
