@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "dependencies": {
     "@gen-codes/ink-schema-form": "^1.0.1",

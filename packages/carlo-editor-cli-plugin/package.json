@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/carlo-editor-cli-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./getDir.js",
   "dependencies": {
     "@gen-codes/use-carlo-proxy-react-hook": "^1.0.1",
