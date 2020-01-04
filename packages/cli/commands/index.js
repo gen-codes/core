@@ -16,7 +16,7 @@ export default function CliForm(props) {
   // const [stdout, setStdout] = useState("");
   const [formData, setData] = useState();
   // console.log(term)
-  const updateExternal = useCarlo("")
+  // const updateExternal = useCarlo("")
   const [print, setPrint] = useState(false);
   // const [tab, setTab] = useState("foo");
   const [currentForm, setCurrentForm] = useState("")
