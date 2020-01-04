@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/cli",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "main": "dist/index.js",
   "license": "MIT",
   "bin": {
@@ -18,7 +18,7 @@
     "prepare": "pastel build"
   },
   "dependencies": {
-    "@gen-codes/carlo-editor-cli-plugin": "^1.1.1",
+    "@gen-codes/carlo-editor-cli-plugin": "^1.1.3",
     "@gen-codes/ink-cli": "^1.1.0",
     "@gen-codes/ink-schema-form": "^1.1.0",
     "@gen-codes/use-carlo-react-hook": "^1.1.0",
