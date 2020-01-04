@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/ink-schema-form",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
@@ -13,9 +13,9 @@
     "@babel/plugin-transform-async-to-generator": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7",
-    "@gen-codes/ink-cli": "1.0.0",
-    "@gen-codes/ink-web": "1.0.0",
-    "@gen-codes/use-carlo-react-hook": "1.0.0",
+    "@gen-codes/ink-cli": "^1.0.1",
+    "@gen-codes/ink-web": "^1.0.1",
+    "@gen-codes/use-carlo-react-hook": "^1.0.1",
     "cli-highlight": "^2.1.4",
     "js-yaml": "^3.13.1",
     "prop-types": "^15.7.2",
