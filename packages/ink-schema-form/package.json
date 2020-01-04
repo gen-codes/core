@@ -43,5 +43,6 @@
   },
   "files": [
     "build/dist.js"
-  ]
+  ],
+  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
 }

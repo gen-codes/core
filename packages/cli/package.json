@@ -1,9 +1,11 @@
 {
   "name": "@gen-codes/cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "license": "MIT",
-  "bin": "./build/cli.js",
+  "bin": {
+    "genco": "./build/cli.js"
+  },
   "files": [
     "build"
   ],
@@ -32,5 +34,6 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
-  }
+  },
+  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
 }
