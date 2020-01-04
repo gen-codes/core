@@ -1,6 +1,6 @@
 {
   "name": "@gen-codes/ink-cli",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
@@ -9,9 +9,9 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.0.0"
-  },  
+  },
   "files": [
-    "dist"
+    "dist/index.js"
   ],
   "dependencies": {
     "cli-highlight": "^2.1.4",
@@ -40,8 +40,5 @@
     "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
     "prepublish": "npm run build"
   },
-  "files": [
-    "dist/index.js"
-  ],
   "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
 }
