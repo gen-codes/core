@@ -1,9 +1,9 @@
 {
   "name": "@gen-codes/web",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "dependencies": {
-    "@gen-codes/ink-schema-form": "^1.0.1",
+    "@gen-codes/ink-schema-form": "^1.0.3",
     "@types/jest": "24.0.15",
     "@types/node": "12.6.1",
     "@types/react": "16.8.23",

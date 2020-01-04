@@ -1,10 +1,10 @@
 {
   "name": "@gen-codes/carlo-file-browser-cli-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./getDir.js",
   "dependencies": {
-    "@gen-codes/use-carlo-proxy-react-hook": "^1.0.1",
-    "@gen-codes/use-carlo-react-hook": "^1.0.1",
+    "@gen-codes/use-carlo-proxy-react-hook": "^1.0.3",
+    "@gen-codes/use-carlo-react-hook": "^1.0.3",
     "fs-extra": "^8.1.0",
     "monaco-editor": "^0.19.0",
     "react": "^16.11.0",
