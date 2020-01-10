@@ -1,7 +1,9 @@
 import React, {useEffect, useContext} from 'react'
 // import {Form, Field, FormSpy} from 'react-final-form'
-import { Color, Text, Box, useApp} from '@gen-codes/ink-cli'
+import {Color, Text, Box, useApp, getCursorPosition} from '@gen-codes/ink-cli'
 import yaml from "js-yaml";
+
+
 // import useInput from "../hooks/useInput"
 import Error from '../components/Error'
 import Spinner from 'ink-spinner'
@@ -11,23 +13,9 @@ import {handleProperties} from '../utils/handleProperties';
 import {checkCondition} from '../utils/checkCondition';
 import Divider from "../components/Divider"
 import {FormContext} from "../index"
-// const winston = require('winston');
+import Search from '../components/Search';
 
-// const logger = winston.createLogger({
-//   level: 'info',
-//   format: winston.format.json(),
-//   defaultMeta: { service: 'user-service' },
-//   transports: [
-//     //
-//     // - Write all logs with level `error` and below to `error.log`
-//     // - Write all logs with level `info` and below to `combined.log`
-//     //
-//     new winston.transports.File({ filename: 'error.log', level: 'error' }),
-//     new winston.transports.File({ filename: 'combined.log' })
-//   ]
-// });
-
-
+import log from "../utils/logger"
 
 export default function ObjectField({objectType, schema, prefix = "", ...props}) {
   const [activeField, setActiveField] = React.useState(0)
@@ -35,7 +23,22 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
   const [formData, setFormData] = React.useState(props.value || {})
   const [currentFields, setCurrentFields] = React.useState([])
   const {currentForm, setCurrentForm, pressedKey, updateExternal} = useContext(FormContext)
-
+  const [errorsObj, setErrors] = React.useState({})
+  const objSchema = schema.find(obj => obj.name === objectType)
+  if(objSchema.remote){
+    return (
+      <Search
+        remote={objSchema.remote}
+        properties={objSchema.properties}
+        value={props.value}
+        onChange={(v)=>{
+          props.onChange(v)
+          props.onSubmit()
+        }}
+        // onSubmit={props.onSubmit}
+      />
+    )
+  }
   useEffect(() => {
     const newFields = fields.filter((field) => {
       if(field.condition) {
@@ -43,7 +46,10 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
         // logger.info(formData);
         return checkCondition(field.condition, formData)
       }
-      return true
+      if(field) {
+        return true
+      }
+      return false
     })
     if(newFields.length != currentFields.length) {
       setCurrentFields(newFields)
@@ -78,13 +84,6 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
       setCurrentForm(previousForm)
     };
   }, [prefix])
-  const schemaProperties = schema.find(obj => obj.name === objectType).properties
-  const fields = handleProperties(
-    schemaProperties,
-    "",
-    schema,
-    prefix
-  )
   const onSetSubmission = (data) => {
     if(props.onChange) {
       props.onChange(data)
@@ -93,10 +92,15 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
       setSubmission(data)
     }
   }
-  // return (
-  // <Form onSubmit={onSetSubmission}
-  // >
-  // 	{({handleSubmit, validating, values}) => {
+
+  const schemaProperties = objSchema.properties
+  const fields = handleProperties(
+    schemaProperties,
+    "",
+    schema,
+    prefix
+  )
+
   return (
     <Box flexDirection="column" >
       <Divider width={20} title={`Edit ${objectType}`} titleColor={"cyan"} dividerColor={"red"} />
@@ -122,17 +126,23 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
                 inputConfig,
                 condition,
                 prefix,
+                default:defaultValue
 
               },
               index,
             ) => {
-
+              const ShowErrors = errorsObj[name] && errorsObj[name].length?
+              <Box marginLeft={2} flexDirection={"column"}>
+              {errorsObj[name].map(err=><Color key={err} red>✖ {err}</Color>)}
+            </Box>:""
+            const defaultType = typeof(defaultValue)
+            if(defaultType.match(/string|number|boolean/)){
+              if(formData[name] === undefined){
+                // setFormData({...formData, [name]: defaultValue})
+              }
+              placeholder=defaultValue
+            }
               return (
-                // <Field name={name} key={name} format={format} validate={validate}>
-                // 	{({input, meta}) => {
-                // 		// handleSubmit
-                //     input.onChange(formData[name])
-                // return (
                 <Box flexDirection="column" key={name}>
                   <Box>
                     {name !== "id" && <Text bold={activeField === index}>{label}: </Text>}
@@ -145,9 +155,26 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
                         placeholder={placeholder}
                         onChange={(data) => {
                           setFormData({...formData, [name]: data})
+                          const {errors} = validate({data, errors: []})
+                          errorsObj[name] = errors
+                          setErrors(errorsObj)    
+                          props.onChange({...formData, [name]: data})                     // logger.info(data,errors)
                         }}
                         updateExternal={updateExternal}
                         onSubmit={() => {
+                          let data = formData[name]
+                          if(formData[name] === undefined){
+                            const defaultType = typeof(defaultValue)
+                            if(defaultType.match(/string|number|boolean/)){
+                              if(formData[name] === undefined){
+                                setFormData({...formData, [name]: defaultValue})
+                                errorsObj[name] = []
+                                setErrors(errorsObj)
+                              }
+                              // placeholder=defaultValue
+                            }
+                          }
+
                           if(activeField === currentFields.length - 1) {
                             onSetSubmission(formData)
                           } else {
@@ -160,6 +187,7 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
                         (typeof (formData[name]) === "object" && formData[name] && <DisplayData formData={formData[name]}></DisplayData>) ||
                         (placeholder && <Color gray>{placeholder}</Color>)
                       )}
+                      {ShowErrors}
                     {/* {validating && name === 'name' && (
 																		<Box marginLeft={1}>
 																			<Color yellow>
@@ -168,16 +196,13 @@ export default function ObjectField({objectType, schema, prefix = "", ...props})
 																		</Box>
 																	)}
 																	{meta.invalid && meta.touched && (
-																		<Box marginLeft={2}>
-																			<Color red>✖</Color>
-																		</Box>
+																		
 																	)}
 																	{meta.valid && meta.touched && meta.inactive && (
-																		<Box marginLeft={2}>
-																			<Color green>✔</Color>
-																		</Box>
+																		
 																	)} */}
                   </Box>
+                  {/* {JSON.stringify(errorsObj)} */}
                   {/* {meta.error && meta.touched && <Error>{meta.error}</Error>} */}
                 </Box>
               )
