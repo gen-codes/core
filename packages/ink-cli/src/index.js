@@ -6,6 +6,7 @@ import InkTextInput, {UncontrolledTextInput} from "ink-text-input";
 import Spinner from "ink-spinner";
 import Divider from "ink-divider";
 import {Tabs, Tab} from "ink-tab" 
+import InkTable from "ink-table" 
 export {
   StdinContext,
   StdoutContext,
@@ -21,5 +22,6 @@ export {
   Color,
   InkMultiSelect,
   InkSelectInput,
-  InkTextInput
+  InkTextInput,
+  InkTable,
 }
