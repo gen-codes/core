@@ -8,7 +8,6 @@ export default function useInput(listenKey) {
     const pressedKey = `${ctrlKey ? "ctrl-" : ""}${shiftKey ?
       "shift-" : ""}${key.toLowerCase()}`;
     if(pressedKey === listenKey) {
-      console.log(key)
       setKeyPressed(true);
       e.preventDefault()
 
