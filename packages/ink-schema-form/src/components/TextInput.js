@@ -3,9 +3,7 @@ import {InkTextInput} from '@gen-codes/ink-cli'
 import Editor  from "./Editor"
 
 export default function TextInput({ onBlur, onFocus, ...props }) {
-  if(!["string", "number"].includes(props.type)){
-    return <Editor {...props} ></Editor>
-  }
+ 
   const [value, setValue] = useState(props.value||"")
   return <InkTextInput
     value={value}
