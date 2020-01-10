@@ -11,14 +11,22 @@ export default function DisplayData({formData, objectType="", countFrom=1}){
     }
 		return (
 			<Box flexDirection={"column"} >{formData.map((item, index) => {
-        
+        if(item._label){
+          return <Text key={index} >{item._label}</Text>
+          
+        }
 				return <Box flexDirection={"column"} key={index}>
 					<Box><Color red>{objectType} {index+countFrom}</Color></Box>
-					{Object.keys(item).filter(f=>f!=="id").map(key => <Box key={key}><Text bold>{key}:</Text><DisplayData formData={item[key]}/></Box>)}
+          {Object.keys(item).filter(f=>f!=="id")
+          .map(key => <Box key={key}><Text bold>{key}:</Text><DisplayData formData={item[key]}/></Box>)}
 				</Box>
 			})}</Box>
 		)
 	}else if(typeof(formData) === "object"){
+    if(formData._label){
+      return <Text >{formData._label}</Text>
+    }
+    delete formData.constructor
     return (
       <Box flexDirection={"column"}>
       {Object.keys(formData).filter(f=>f!=="id").map(key => <Box  key={key}><Box><Text bold>{key}:</Text></Box><DisplayData formData={formData[key]}></DisplayData></Box>)}
