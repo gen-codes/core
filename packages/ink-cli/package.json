@@ -2,6 +2,10 @@
   "name": "@gen-codes/ink-cli",
   "version": "1.1.0",
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "scripts"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -18,9 +22,11 @@
     "ink": "^2.6.0",
     "ink-divider": "^2.0.1",
     "ink-multi-select": "^1.1.0",
+    "ink-quicksearch-input": "^1.0.0",
     "ink-select-input": "^3.1.2",
     "ink-spinner": "^3.0.1",
     "ink-tab": "^2.2.0",
+    "ink-table": "^2.0.1",
     "ink-text-input": "^3.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -40,5 +46,5 @@
     "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
     "prepublish": "npm run build"
   },
-  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
+  "gitHead": "4600dc26cd488b0ee7816b363c50623f876a5f08"
 }

@@ -17,6 +17,9 @@
     "@gen-codes/ink-web": "^1.1.0",
     "@gen-codes/use-carlo-react-hook": "^1.1.0",
     "cli-highlight": "^2.1.4",
+    "dlv": "^1.1.3",
+    "get-cursor-position": "^1.0.5",
+    "isomorphic-fetch": "^2.2.1",
     "js-yaml": "^3.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -44,5 +47,5 @@
   "files": [
     "dist"
   ],
-  "gitHead": "49133603b58ecab2dd90e936054b72cc9caab94d"
+  "gitHead": "4600dc26cd488b0ee7816b363c50623f876a5f08"
 }
