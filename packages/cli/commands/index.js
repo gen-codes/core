@@ -22,21 +22,21 @@ export default function CliForm(props) {
   const [currentForm, setCurrentForm] = useState("")
   return (
     <FormContext.Provider value={{currentForm, setCurrentForm}}>
-      {formData &&<Box>{JSON.stringify(formData, undefined, 2)}</Box>}
-
-      <Box flexDirection="column"  >
-          <Box  marginBottom={1} float={"left"} flexDirection={"column"}>
-            <SchemaForm
-              externalEditor={getDir()}
-              onSubmit={(data) => {setData(data)}}
-              value={formData}
-              objectType={"Element"}
-              schema={schema}
-            ></SchemaForm>
-          </Box>
-          {/* <Box width={"50%"} height={"100%"} justifyContent={"flex-end"} textWrap="wrap" float={"right"} flexDirection="column">
-
-            {tab === "foo" && <Text textWrap="wrap" >
+      {formData && <Box>{JSON.stringify(formData, undefined, 2)}</Box>}
+      <Box >
+        <Box marginBottom={1} float={"left"} flexDirection={"column"}>
+          <SchemaForm
+            externalEditor={getDir()}
+            onSubmit={(data) => {setData(data)}}
+            onChange={(data) => {setData(data)}}
+            value={formData}
+            objectType={"Project"}
+            schema={schema}
+          ></SchemaForm>
+        </Box>
+        <Box>
+          {/* Data: {JSON.stringify(formData, null, 2)} */}
+          {/* {tab === "foo" && <Text textWrap="wrap" >
               {hl(code, "js")}
 
             </Text>}
@@ -44,16 +44,16 @@ export default function CliForm(props) {
               <Tab name="foo">Foo</Tab>
               <Tab name="bar">Bar</Tab>
               <Tab name="baz">Baz</Tab>
-            </Tabs>
-          </Box> */}
+            </Tabs>*/}
+          </Box> 
 
         </Box>
         <Box width={"100%"} float={"left"}>
           <Text>
             Shortcuts: Exit/ctrl-z
     </Text>
-      </Box>
+        </Box>
     </FormContext.Provider>
 
-  )
-}
+      )
+    }
