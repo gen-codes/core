@@ -10,7 +10,10 @@ export const FormContext = React.createContext()
 export default function SchemaForm(props) {
   // const {} = useCarlo()
   const [code, setCode] =useState("")
-  const updateExternal = useCarlo(props.externalEditor)
+  let updateExternal = ()=>{}
+  if(props.externalEditor){
+    updateExternal = useCarlo(props.externalEditor)
+  }
 
 
   const [currentForm, setCurrentForm] = React.useState("")
