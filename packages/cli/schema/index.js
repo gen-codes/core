@@ -1,167 +1,114 @@
-const PropTypes = ["string", "bool", "oneOf", "oneOfType", "arrayOf", "node"]
-const externalEditor = (type, props={})=>{
-  if(type==="md"){
-    return {
-      type,
-      component: "MarkdownEditor"
-    }
-  }else{
-    return {
-      type,
-      component: "CodeEditor",
-      props: {
-        lang: type,
-        ...props
-      }
-    }
-  }
-}
-const PropTypeProperties = {
-  type: PropTypes,
-  "if(type==='oneOfType')": {
-    oneOfType: "PropTypes"
-  },
-  "if(type === 'oneOf')": {
-    oneOf: "Choices"
-  },
-  "if(type === 'arrayOf')": {
-    arrayOf: "PropType"
-  },
-  // required: "boolean"
-}
-const schema = [
+
+const cliSchema = [
   {
     name: "Project",
     plural: "Projects",
     properties: {
-      type: ["Project Generator", "Component Generator"],
-      _switch: {
-        type: {
-          "Component Generator": {
-            componentType: ["Element", "Section", "Layout", "Page"]
-          }
-        },
-        componentType: {
-          "Element": {
-            element: "Element"
-          }
-        }
+      type: ["Start new generator", "Install generator"],
+      "if(type === 'Start new generator')": {
+        create: "Generator"
       },
+      // "switch(type)": {
+      //   "Start new generator": {
+      //     create: "Generator"
+      //   }
+      // }
     }
   },
   {
-    name: "Element",
-    plural: "Elements",
+    name: "Generator",
+    plural: "Generators",
     properties: {
-      subGenerators: {
-          multiple: true,
-          enum: ["component.js",  "component.tests.js", "component.doc.md"]
-      },
-      name: "string",
-      "if(subGenerators.includes('component.js'))":{
-        materialUIimports: {
-          multiple: true,
-          enum: ["Button", "TextInput", "Appbar", "Select", "CheckBox", "Card", "Snack"]
-        },
-        styles: "Styles",
-        props: "Props",
-      },
-      "if(subGenerators.includes('component.tests.js'))":{
-        defaultTests: "boolean",
-        tests: "Tests",
-      },
-      "if(subGenerators.includes('component.doc.md'))":{
-        defaultDocs: "boolean",
-        docs: "Docs",
-      }
-    }
-  },
-  {
-    name: "Template",
-    plural: "Templates",
-    properties: {
-      name: ["element", "elementDoc", "elementTest"],
-      file: {
-        type: "createFile",
-        default: {
-          switch:{
-            name: {
-              element: "{$.name}.js",
-              elementDoc: "{$.name}Doc.md",
-              elementTest: "{$.name}.test.js"
+      name: "string!",
+      version: {
+        default: "1.0.0",
+        type: "string",
+        validators: [
+          /[0-9]+\.[0-9]+\.[0-9]+$/,
+          function(data) {
+            // check with latest version
+            if(data.data.endsWith("beta")) {
+              return {
+                ...data,
+                errors: data.errors.concat(["beta is not allowed"])
+
+              }
             }
+            return data
           }
-        } 
-      }
+        ]
+
+      },
+      persistent: "boolean",
+      test: "Tests",
+      installExternalPackages: "boolean",
+      "if(installExternalPackages)": {
+        install: "GeneratorPackages",
+        // {
+        //   enum: { 
+        //     type: "rest",
+        //     service: (query) => `https://api.npms.io/v2/search?q=${query}`,
+        //     parser: {
+        //       item: {
+        //         label: "{package.name}@{package.version}",
+        //         value: {
+        //           link: "{package.links.npm}",
+        //           name: "{package.name}",
+        //           version: "{package.version}"
+        //         }
+        //       }
+        //     },
+        //   },
+        //   multiple: true,
+        //   onSubmit: function(data) {
+        //     // git clone packages into cache
+        //   }
+        // },
+      },
+      "if(install)": {
+        forkGenerators: "boolean",
+      },
+      // "if(forkGenerators)": {
+      //   selectGenerators: {
+      //     enum: "$.install",
+      //     onSubmit: function(data) {
+      //       // copy to projectPath folder under ./.gen
+      //     }
+      //   },
+      //   trackWithCurrentGit: {
+      //     type: "boolean",
+      //     onSubmit: function(data) {
+      //       // add or remove on .gitignore
+      //     }
+      //   }
+      // },
+
+
+    }
+  },
+  {
+    name: "GeneratorPackage",
+    plural: "GeneratorPackages",
+    remote: {
+      type: "rest",
+      service: (query) => `https://api.npms.io/v2/search?q=${query}`,
+      resultsPath: null,
+    },
+    properties: {
+      _label: "{package.name}@{package.version}",
+      link: "{package.links.npm}",
+      name: "{package.name}",
+      version: "{package.version}"
     }
   },
   {
     name: "Test",
     plural: "Tests",
     properties: {
-      name: "string",
-      render: "string",
-      check: "Checks"
-    }
-  },
-  {
-    name: "Check",
-    plural: "Checks",
-    properties: {
-      type: ["toHaveTextContext", "custom"],
-      "if(type!=='custom')": {
-        value: "string"
-      },
-      "if(type==='custom')": {
-        customValue: externalEditor("javascript")
-      }
-    }
-  },
-  {
-    name: "PropType",
-    plural: "PropTypes",
-    properties: PropTypeProperties
-  },
-  {
-    name: "Prop",
-    plural: "Props",
-    properties: {
-      name: "string",
-      description: "string",
-      defaultValue: "string",
-      ...PropTypeProperties,
-    }
-  },
-  {
-    name: "Choice",
-    plural: "Choices",
-    properties: {
-      value: "string"
-    }
-  },
-  {
-    name: "Style",
-    plural: "Styles",
-    properties: {
-      name: "string",
-      breakpoints: {
-        enum: ["xs", "sm", "md", "lg", "xl"],
-        multiple: true
-      },
-      css: externalEditor("css")
-    }
-  },
-  {
-    name: "Doc",
-    plural: "Docs",
-    properties: {
-      type: ["What", "How", "When", "Custom"],
-      "if(type === 'Custom')": {
-        title: "string",
-      },
-      content: externalEditor("md")
-
+      name: "string"
     }
   }
+
 ]
-export default schema
+
+export default cliSchema
