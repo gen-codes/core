@@ -23,7 +23,9 @@
     "@gen-codes/ink-cli": "^1.1.0",
     "@gen-codes/ink-schema-form": "^1.1.0",
     "@gen-codes/use-carlo-react-hook": "^1.1.0",
+    "appdirectory": "^0.1.0",
     "carlo": "^0.9.46",
+    "fs-extra": "^8.1.0",
     "pastel": "1.0.3",
     "ui": "^0.2.4"
   },
