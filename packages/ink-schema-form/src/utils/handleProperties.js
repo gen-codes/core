@@ -16,7 +16,7 @@ export function handleProperties(properties, condition, schema, prefix, root = t
       const condition = propName.match(/if\((.*?)\)$/)[1];
       fields = fields.concat(handleProperties(prop, condition, schema, `${prefix}`, false));
     }else {
-      fields.push({prefix: `${prefix}.${propName}`, ...handleProperty(propName, prop, condition, schema)});
+      fields.push({prefix: `${prefix?prefix+".":""}${propName}`, ...handleProperty(propName, prop, condition, schema)});
     }
   }
   if(root) {

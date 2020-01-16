@@ -15,11 +15,16 @@ import log from "../utils/logger"
 
 // Object
 
-export default function ArrayField({...props}) {
-  const [formData, setFormData] = React.useState(props.value || [])
+export default function ArrayField({prefix,...props}) {
+  const {currentForm, setCurrentForm, pressedKey, getField,setField} = useContext(FormContext)
+  const [formData, setData] = React.useState( getField(prefix) || [])
+  // const formData = getField(prefix) || []
+  const setFormData = (value) =>{
+    setField(prefix, value)
+    setData(getField(prefix))
+  }
   const [[show, submitted, editDelete], setShowSubmittedDelete] = React.useState([true, false, null])
   const [activeObject, setActiveObject] = useState(formData.length - 1)
-  const {currentForm, setCurrentForm, pressedKey} = useContext(FormContext)
   const [editDeleteChoice, setEditDeleteChoice] = React.useState(0)
   const [editArrayItem, setEditArrayItem] = useState(false)
 
@@ -55,15 +60,13 @@ export default function ArrayField({...props}) {
   useEffect(() => {
 
     handleInput(pressedKey)
-    return () => {
 
-    };
   }, [pressedKey])
 
 
   // useInput(handleInput);
   const onContinueAnswer = (answer) => {
-    if(answer ) {
+    if(answer) {
       props.onSubmit()
     } else {
       setActiveObject(v => v + 1)
@@ -102,7 +105,7 @@ export default function ArrayField({...props}) {
       // delete
       const newFormData = formData.filter((item, index) => index !== editDelete)
       setFormData(newFormData)
-      props.onChange(newFormData)
+      // props.onChange(newFormData)
       setActiveObject(newFormData.length - 1)
       if(newFormData.length === 0) {
         setShowSubmittedDelete([true, false, null])
@@ -120,28 +123,25 @@ export default function ArrayField({...props}) {
     Children = (
       <ObjectField
         {...props}
-        value={formData[activeObject]}
-        prefix={`${props.prefix}[${activeObject}]`}
+        // value={formData[activeObject]}
+        prefix={`${prefix}[${activeObject}]`}
         onSubmit={() => {
-          if(formData[activeObject]){
-            props.onChange(formData)
-
             if(editArrayItem) {
               setEditArrayItem(false)
               setEditDeleteChoice(0)
   
             } else {
+              setData(getField(prefix))
               setShowSubmittedDelete([true, submitted, null])
             }
-          }
         }}
-        onChange={(data) => {
-          if(data){
-            formData[activeObject] = data
-            setFormData(formData)
-          }
-          // setCurrentFormItem(data)
-        }}
+        // onChange={(data) => {
+        //   if(data){
+        //     formData[activeObject] = data
+        //     setFormData(formData)
+        //   }
+        //   // setCurrentFormItem(data)
+        // }}
       />
     )
   } else if(!submitted && show) {
