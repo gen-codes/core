@@ -17,7 +17,7 @@ function Init({inputArgs}) {
   const [state, setState] = useState("checking_files")
   const [data ,setData] = useState()
   useEffect(() => {
-    const configLocation = findFile(location, "gen.package.json", 2, /node_modules/)
+    const configLocation = findFile(location, "gen.module.json", 2, /node_modules/)
     if(configLocation) {
       // const config = fs.readJSONSync(configLocation)
 
@@ -55,10 +55,5 @@ function Init({inputArgs}) {
   );
 
 }
-Init.propTypes = {
-  folder: PropTypes.string,
-};
-
-// Init.positionalArgs = ['folder'];
 
 export default Init;

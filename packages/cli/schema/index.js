@@ -87,12 +87,50 @@ const cliSchema = [
     }
   },
   {
+    name: "RunGenerator",
+    plural: "RunGenerators",
+    description: "",
+    title: "Run an installed generator module",
+    properties: {
+      name: "InstalledGenerator",
+    },
+    // events: {
+    //   onSubmit: (data)=>{
+
+    //   }
+    // }
+  },
+  {
+    name: "InstalledGenerator",
+    plural: "InstalledGenerators",
+    description: "",
+    title: "Find an installed module",
+    data: {
+      type: "config",
+      service: "genModule",
+      resultsPath: "dependencies",
+      transform: (dependencies)=>{
+        const names = Object.keys(dependencies)
+        const versions =  Object.values(dependencies)
+        return names.map((name,index)=>({name, version: versions[index]}))
+      },
+      realTime: true,
+      search: ["name"]
+    },
+    properties: {
+      _label: "{name}@{version}",
+      name: "{name}",
+      version: "{version}"
+    }
+  },
+  {
     name: "GeneratorPackage",
     plural: "GeneratorPackages",
-    remote: {
+    data: {
       type: "rest",
       service: (query) => `https://api.npms.io/v2/search?q=${query}`,
       resultsPath: null,
+      
     },
     properties: {
       _label: "{package.name}@{package.version}",
@@ -105,7 +143,7 @@ const cliSchema = [
     name: "Test",
     plural: "Tests",
     properties: {
-      name: "string"
+      name: "string",
     }
   }
 
