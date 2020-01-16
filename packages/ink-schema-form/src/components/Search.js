@@ -2,37 +2,55 @@ import React, {useState, useEffect} from 'react'
 import {InkTextInput, Box, InkTable, InkSelectInput, InkMultiSelect} from '@gen-codes/ink-cli'
 import fetch from "isomorphic-fetch"
 import dlv from 'dlv';
-const winston = require('winston');
+import logger from '../utils/logger';
 
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  defaultMeta: {service: 'user-service'},
-  transports: [
-    //
-    // - Write all logs with level `error` and below to `error.log`
-    // - Write all logs with level `info` and below to `combined.log`
-    //
-    new winston.transports.File({filename: 'combined.log'})
-  ]
-});
 const cache = {};
 const delve = path => obj => dlv(obj, path);
-function useRest(term, amount, {service, resultsPath}, properties) {
-  // if(term)
-  const fetchPath = path => fetch(service(path)).then(res => res.json());
+function useData(term, amount, {type, service, resultsPath, transform, search}, properties, config) {
+  let fetchData;
+  if(type === "rest") {
+    fetchData = query => {
+      if(!query.length<2){
+        return new Promise(resolve=>resolve([]))
+      }
+      return fetch(service(query)).then(res => res.json())
+      if(resultsPath) {
+        fetchData = async (query) => {
+          const {results} = await fetchData(query)
+          return new Promise(resolve => resolve(delve(resultsPath)(results)))
+        }
+      }
+    }
+  }
+  if(type === "config") {
+    let data = config[service]
+    if(resultsPath) {
+      data = delve(resultsPath)(data)
+    }
+    if(transform) {
+      data = transform(data)
+    }
+    fetchData = (query) => {
+      return new Promise(resolve => resolve(data.filter(item => {
+        if(!query) return true
+        if(search && search.some(field => item[field].match(new RegExp(query, "im")))) {
+          return true
+        } else if(!search && JSON.stringify(item).match(new RegExp(query, "im"))) {
+          return true
+        }
+        return false
+      })))
 
+    }
+  }
   const query = term.toLowerCase().replace(/ /g, '+');
   const [data, setData] = useState(cache[query] || []);
 
   const parse = results => {
-    if(resultsPath) {
-      results = dlv(resultsPath)(results)
-    }
     const strObj = JSON.stringify(properties)
     const matches = strObj
       .match(/\{[a-zA-Z0-9\[\]\.]*\}/g)
-    return results.slice(0, amount || 10).map((item) => {
+    return results.slice(0, amount || results.length).map((item) => {
       const value = matches.reduce((str, v) => {
         const path = v.match(/\{(.*?)\}/)[1]
         const newValue = delve(path)(item)
@@ -44,16 +62,14 @@ function useRest(term, amount, {service, resultsPath}, properties) {
   }
 
   useEffect(() => {
-    if(term) {
       if(!cache[query]) {
-        fetchPath(query).then(response => {
-          cache[query] = parse(response.results);
+        fetchData(query).then(response => {
+          cache[query] = parse(response);
           setData(cache[query]);
         });
       } else {
         setData(cache[query]);
       }
-    }
   }, [query, term]);
 
   return data;
@@ -61,9 +77,10 @@ function useRest(term, amount, {service, resultsPath}, properties) {
 
 export default function Search(props) {
   const [term, setTerm] = useState("")
-  const [search, setSearch] = useState(undefined)
+  const [search, setSearch] = useState("")
   const [arr, setArr] = useState(props.value || [])
-  const results = useRest(term, 10, props.remote, props.properties)
+
+  const results = useData(props.data.realTime ? search : term, props.data.limit, props.data, props.properties, props.config)
     .map(({_label, ...value}) => ({label: _label, value: JSON.stringify(value)}))
 
   const Results = (
@@ -82,6 +99,7 @@ export default function Search(props) {
 
   return (
     <Box flexDirection={"column"}>
+      {`${props.title}:`}
       <InkTextInput
         onChange={setSearch}
         onSubmit={setTerm}
