@@ -26,7 +26,9 @@
     "appdirectory": "^0.1.0",
     "carlo": "^0.9.46",
     "fs-extra": "^8.1.0",
+    "npm": "^6.13.6",
     "pastel": "1.0.3",
+    "semver": "^7.1.1",
     "ui": "^0.2.4"
   },
   "devDependencies": {
