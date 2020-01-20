@@ -1,0 +1,29 @@
+{
+  "name": "@gen-codes/server",
+  "version": "1.1.0",
+  "description": "The gen.codes serverless functions",
+  "main": "handler.js",
+  "scripts": {
+    "test": "serverless-bundle test"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gen-codes/gen-codes.git"
+  },
+  "devDependencies": {
+    "serverless-bundle": "1.2.5",
+    "serverless-dotenv-plugin": "2.1.1",
+    "serverless-offline": "5.12.1"
+  },
+  "dependencies": {
+    "auth0-lock": "^11.20.2",
+    "is-stream": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.2",
+    "npm-registry-client": "^8.6.0",
+    "tar-stream": "^2.1.0",
+    "zlib": "^1.0.5"
+  }
+}
