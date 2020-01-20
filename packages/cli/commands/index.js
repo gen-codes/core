@@ -9,7 +9,6 @@ export const FormContext = React.createContext()
 
 // fs.lstatSync(__dirname+"../plugins/editor/dist")
 // const editorPath = path.dirname(require.resolve("@gen-codes/carlo-editor-cli-plugin/package.json"));
-
 export default function CliForm(props) {
   // track which is the real activeField and Form instance
   // add horizontal nested Tab functionality with tabname = schema.property.identifier === true

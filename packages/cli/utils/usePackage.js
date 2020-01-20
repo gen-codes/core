@@ -10,13 +10,13 @@ export default function usePackage(dir){
   }
   if(fs.existsSync(path.join(dir, ".gen/gen.module.json"))) {
     genFile =  path.join(dir, ".gen/gen.module.json")
-    modules = path.join(dir, ".gen/gen_modules")
+    modules = path.join(dir, ".gen","node_modules", "@gen-codes-registry")
   } else if(fs.existsSync(path.join(dir, "gen.module.json"))) {
     genFile =  path.join(dir, "gen.module.json")
     if(dir.endsWith(".gen")){
-      modules = path.join(dir, "gen_modules")
+      modules = path.join(dir, "node_modules", "@gen-codes-registry")
     }else{
-      modules = path.join(dirs.userCache() ,"gen_modules")
+      modules = path.join(dirs.userCache() ,"node_modules", "@gen-codes-registry")
     }
   } else if(path.dirname(dir) !== dir){
       const packageConfig =  usePackage(
@@ -27,7 +27,7 @@ export default function usePackage(dir){
 
   }else {
     genFile = path.join(dirs.userCache(), "gen.module.json")
-    modules = path.join(dirs.userCache(),"gen_modules")
+    modules = path.join(dirs.userCache(),"node_modules", "@gen-codes-registry")
     if(!fs.existsSync(genFile)){
       fs.writeFileSync(genFile, '{"dependencies": []}')
     }

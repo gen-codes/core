@@ -12,7 +12,7 @@ export const FormContext = React.createContext()
 
 export default function SchemaForm(props) {
   // const {} = useCarlo()
-  // const [formData, setFormData] = useState(props.value|| {})
+  // const [formData, setFormData] = us  eState(props.value|| {})
   const formData = props.value || {}
   const setFormData = props.onChange
   const [code, setCode] =useState("")
