@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@gen-codes/carlo-editor-cli-plugin": "^1.2.0",
-    "@gen-codes/compiler": "^1.1.1",
+    "@gen-codes/compiler": "^1.1.2",
     "@gen-codes/ink-cli": "^1.2.0",
     "@gen-codes/ink-schema-form": "^1.2.2",
     "@gen-codes/use-carlo-react-hook": "^1.1.0",
@@ -45,5 +45,5 @@
       "@babel/preset-react"
     ]
   },
-  "gitHead": "ac3db152b142eb0b782b5836901f5c68bd1ff9c1"
+  "gitHead": "1838fa419694dd476301ccb5a28277ccb100eb8f"
 }

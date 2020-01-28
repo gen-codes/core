@@ -1,7 +1,8 @@
 {
   "name": "@gen-codes/compiler",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
+  "private": false,
   "main": "dist/index.js",
   "files": [
     "dist",
@@ -83,5 +84,6 @@
     "prettier": "1.18.2",
     "rimraf": "2.6.3",
     "standard-version": "6.0.1"
-  }
+  },
+  "gitHead": "1838fa419694dd476301ccb5a28277ccb100eb8f"
 }
