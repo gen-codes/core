@@ -7,10 +7,6 @@ import fs from "fs-extra";
 import SchemaForm from '@gen-codes/ink-schema-form';
 import schema from "../../schema"
 
-const newProjectFiles = {
-  ".gen/schema/index.js": `export default const schema = {}`,
-  ".gen/templates/partials/": true
-}
 function Init({inputArgs}) {
   const location = inputArgs[1] && path.join(process.cwd(), inputArgs[1]) || process.cwd()
   const [config, setConfig] = useState({})
@@ -29,12 +25,22 @@ function Init({inputArgs}) {
   }, [])
   const initializeForm = (
     <SchemaForm
-      onSubmit={(newData) => {setData(newData)}}
+      onSubmit={() => {setState("create_module")}}
       value={data}
-      objectType={"Project"}
+      onChange={(newData) => {setData(newData)}}
+      objectType={"Generator"}
       schema={schema}
     ></SchemaForm>
   )
+  if(state === "create_module"){
+    const hasFiles = fs.readdirSync(process.cwd()).files.length?true:false
+    const prefix = hasFiles?".gen/":""
+    fs.outputFileSync(`${prefix}gen.module.json`, JSON.stringify(data, null,2))
+    fs.outputFileSync(`${prefix}schema/index.js`,`export default {}` )
+    fs.mkdirSync(`${prefix}templates`)
+    fs.mkdirSync(`${prefix}templates/.partials`)
+    return "gen.module initialized"
+  }
   const alreadyInitialized = (
     <Box flexDirection={"column"}>
       <Box>

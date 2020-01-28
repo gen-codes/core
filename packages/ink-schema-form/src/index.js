@@ -65,7 +65,6 @@ export default function SchemaForm(props) {
       pressedKey, updateExternal,
       getField, setField}}
     >
-      {JSON.stringify(formData)}
       <ObjectField {...props} />
     </FormContext.Provider>
   )

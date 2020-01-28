@@ -1,31 +1,87 @@
 {
   "name": "@gen-codes/compiler",
   "version": "1.1.0",
-  "main": "dist/index.js",
   "license": "MIT",
-  "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.3",
-    "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.7"
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "test": "jest --watchAll",
+    "coverage": "npm test -- --coverage",
+    "postcoverage": "open-cli coverage/lcov-report/index.html",
+    "lint": "eslint .",
+    "flow": "flow check",
+    "docs": "documentation readme src --section=API",
+    "postdocs": "git add README.md",
+    "clean": "rimraf dist",
+    "flowbuild": "flow-copy-source src dist",
+    "build": "babel src -d dist --ignore src/gen-repo/**/template,src/gen-repo/node_modules,.generated/",
+    "dev": "babel src -d dist --watch --ignore src/gen-repo/**/template,src/gen-repo/node_modules,.generated/",
+    "prerelease": "npm run lint && npm test && npm run build",
+    "release": "standard-version",
+    "postpublish": "git push origin master --follow-tags"
   },
-  "dependencies": {
-    "js-yaml": "^3.13.1",
-    "safe-eval": "^0.4.1",
-    "semver": "^6.0.0"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
     ]
   },
-  "scripts": {
-    "build": "BABEL_ENV=cjs babel src --out-dir=dist",
-    "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
-    "prepublish": "npm run build"
-  },
-  "files": [
-    "build/dist.js"
+  "keywords": [
+    "generator-nod"
   ],
-  "gitHead": "ac3db152b142eb0b782b5836901f5c68bd1ff9c1"
+  "dependencies": {
+    "change-case": "3.1.0",
+    "chokidar": "3.3.0",
+    "commander": "4.0.1",
+    "escodegen": "1.12.0",
+    "fs-extra": "8.1.0",
+    "git-node": "0.1.1",
+    "glob": "7.1.6",
+    "glob-parent": "5.1.0",
+    "handlebars": "4.5.3",
+    "ink": "2.6.0",
+    "ink-box": "1.0.0",
+    "inquirer": "7.0.0",
+    "js-yaml": "3.13.1",
+    "json-query": "2.2.2",
+    "jsonschema": "1.2.5",
+    "lowdb": "1.0.0",
+    "normalizr": "3.4.1",
+    "react": "16.12.0",
+    "to-ast": "1.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.5",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/preset-env": "7.4.5",
+    "@babel/preset-flow": "7.0.0",
+    "babel-eslint": "10.0.2",
+    "babel-jest": "24.8.0",
+    "documentation": "11.0.1",
+    "eslint": "6.0.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "5.0.0",
+    "eslint-plugin-flowtype": "3.10.5",
+    "eslint-plugin-flowtype-errors": "4.1.0",
+    "eslint-plugin-import": "2.17.3",
+    "eslint-plugin-prettier": "3.1.0",
+    "flow-bin": "0.101.1",
+    "flow-copy-source": "2.0.6",
+    "husky": "2.4.1",
+    "jest": "24.8.0",
+    "lint-staged": "8.2.1",
+    "open-cli": "5.0.0",
+    "prettier": "1.18.2",
+    "rimraf": "2.6.3",
+    "standard-version": "6.0.1"
+  }
 }

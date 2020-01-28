@@ -1,6 +1,6 @@
 import AppDirectory from "appdirectory"
 import path from "path";
-import fs from "fs"
+import fs from "fs-extra"
 const dirs = new AppDirectory({appName: "gen-codes"})
 export default function usePackage(dir){
   let genFile
@@ -32,9 +32,9 @@ export default function usePackage(dir){
       fs.writeFileSync(genFile, '{"dependencies": []}')
     }
   }
-  if(!fs.existsSync(modules)){
-    fs.mkdirSync(modules)
-  }
+  // if(!fs.existsSync(modules)){
+  //   fs.outputFileSync(modules)
+  // }
   return {
     genFile, modules
   }

@@ -5,11 +5,11 @@ import generateHandlebarsTemplate from "./generateHandlebarsTemplate"
 export function parseGenerator(generatorDirectory) {
   const directories = [
     "schema",
-    "template",
+    "templates",
     "hooks",
     "helpers"
   ];
-  const generatorDir = `${generatorDirectory}/backend/`;
+  const generatorDir = `${generatorDirectory}/`;
   const generator = directories.filter(dirName => {
     return fs.existsSync(`${generatorDir}${dirName}`);
   })
@@ -18,25 +18,26 @@ export function parseGenerator(generatorDirectory) {
       switch(dirName) {
         case "schema": {
           const models = fs.readdirSync(`${fullPath}`);
-          const schema = models
-            .filter(model => model.endsWith(".js"))
-            .map(model => model.replace(".js", ""))
-            .reduce((models, model) => {
-              models[model] = require(`${fullPath.replace("./src/", "./")}/${model}`).default;
-              return models;
-            }, {});
+          const schema = require(`${fullPath}`)
+          // const schema = models
+          //   .filter(model => model.endsWith(".js"))
+          //   .map(model => model.replace(".js", ""))
+          //   .reduce((models, model) => {
+          //     models[model] = require(`${fullPath.replace("./src/", "./")}/${model}`).default;
+          //     return models;
+          //   }, {});
           data.schema = schema;
           break;
         }
-        case "template": {
+        case "templates": {
           const templateFiles = listFiles(`${fullPath}/`);
-          data.components = {};
+          data.partials = {};
           data.files = {};
           data.extensions = {};
           templateFiles.forEach(file => {
             const templateFile = fs.readFileSync(file).toString()
-            if(file.includes(".components")) {
-              data.components[file.split("/").reverse()[0].replace(/\.[a-z]+$/, "")] = templateFile;
+            if(file.includes(".partials")) {
+              data.partials[file.split("/").reverse()[0].replace(/\.[a-z]+$/, "")] = templateFile;
             }
             else if(file.includes(".extensions")) {
               data.extensions[file.split("/").reverse()[0].replace(/\.[a-z]+$/, "")] = templateFile;
@@ -87,8 +88,10 @@ export function parseGenerator(generatorDirectory) {
       }, {});
     // console.log(generator)
   }
-  if(fs.existsSync(`${generatorDir}.filetree.js`)) {
-    generator.fileTree = require(`${generatorDir.replace("./src", ".")}.filetree.js`).default;
-  }
+  const fileTrees = fs.readdirSync(generatorDir).filter(f=>f.endsWith(".filetree.js"))
+  generator.fileTrees = fileTrees.reduce((ftObj, ft)=>({...ftObj,[ft.replace(".filetree.js","")]:require(`${generatorDir}/${ft}`)}),{})
+  // if(fs.existsSync(`${generatorDir}.filetree.js`)) {
+  //   generator.fileTree = require(`${generatorDir.replace("./src", ".")}.filetree.js`).default;
+  // }
   return generator;
 }

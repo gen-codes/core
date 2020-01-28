@@ -3,7 +3,7 @@ import {deepValue} from "./utils/deepValue";
 import {compileTemplateFile} from "./compileTemplateFile";
 
 
-export function compile(node, variables, context, prefix = "src", generator) {
+export function compile(node, variables, context, prefix = "./", generator) {
   // console.log(context._source_map)
   if(!node || typeof (node) !== "object") {
     return node;

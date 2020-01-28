@@ -185,5 +185,18 @@ npmi.INSTALL_ERR = INSTALL_ERR;
 npmi.VIEW_ERR    = VIEW_ERR;
 
 npmi.NPM_VERSION = npm.version;
-
-export default npmi;
+const install = async (name, version, modulesPath)=>{
+  const result = await new Promise((resolve,reject) => npmi({
+    name,
+    version,
+    path: modulesPath,
+    forceInstall: false,
+    npmLoad: {
+      loglevel: 'silent'	
+    }
+  }, function (error, result) {
+      resolve({error, result})
+  }))
+  return result
+}
+export default install;

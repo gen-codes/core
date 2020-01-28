@@ -39,11 +39,9 @@ const cliSchema = [
         ]
 
       },
-      persistent: "boolean",
-      test: "Tests",
-      installExternalPackages: "boolean",
-      "if(installExternalPackages)": {
-        install: "GeneratorPackages",
+      // installExternalPackages: "boolean",
+      // "if(installExternalPackages)": {
+      //   install: "GeneratorPackages",
         // {
         //   enum: { 
         //     type: "rest",
@@ -64,10 +62,10 @@ const cliSchema = [
         //     // git clone packages into cache
         //   }
         // },
-      },
-      "if(install)": {
-        forkGenerators: "boolean",
-      },
+      // },
+      // "if(install)": {
+      //   forkGenerators: "boolean",
+      // },
       // "if(forkGenerators)": {
       //   selectGenerators: {
       //     enum: "$.install",
@@ -108,10 +106,10 @@ const cliSchema = [
     data: {
       type: "config",
       service: "genModule",
-      resultsPath: "dependencies",
-      transform: (dependencies)=>{
-        const names = Object.keys(dependencies)
-        const versions =  Object.values(dependencies)
+      resultsPath: "modules",
+      transform: (modules)=>{
+        const names = Object.keys(modules)
+        const versions =  Object.values(modules)
         return names.map((name,index)=>({name, version: versions[index]}))
       },
       realTime: true,
@@ -128,7 +126,7 @@ const cliSchema = [
     plural: "GeneratorPackages",
     data: {
       type: "rest",
-      service: (query) => `https://api.npms.io/v2/search?q=${query}`,
+      service: (query) => `https://api.npms.io/v2/search?q=${query}+author:gen-codes-registry`,
       resultsPath: null,
       
     },

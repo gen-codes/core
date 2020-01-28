@@ -43,11 +43,12 @@ export default  () => {
     json: filesObj
   }, function(error, response, body) {
     console.log(body);
-    // if(error){
-    //   setResponse(error)
-    // }else{
-    //   setResponse(body)
-    // }
+    
+    if(error){
+      setResponse(error)
+    }else{
+      setResponse(body)
+    }
   });
   return JSON.stringify(response)
 }

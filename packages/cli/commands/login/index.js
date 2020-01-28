@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react"
 import {Auth0LoginProcessor} from "../../utils/auth0"
 import path from "path"
 import useConfig from "../../utils/useConfig"
-import logger from "../../../ink-schema-form/src/utils/logger"
 import fs from "fs-extra"
 export default function Login (){
   const [token, setToken] = useState()
@@ -21,7 +20,6 @@ export default function Login (){
         failedLoginHtmlFile: `<html>failed to login with github</html>`
       })
       const authtoken = await auth.runLoginProcess()
-      logger(authtoken)
       setToken(authtoken.token)
       fs.writeJSONSync(configFile, {
         ...config,

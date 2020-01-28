@@ -2,7 +2,7 @@ import tgzFiles from "./utils/tgzFiles";
 const Registry = require('npm-registry-client');
 const request = require('request');
 const iss = process.env.AUTH0_DOMAIN;
-
+// 
 const client = new Registry();
 export const publish = async (event, context) => {
   const principalId = event.requestContext.authorizer.principalId;
@@ -23,8 +23,8 @@ export const publish = async (event, context) => {
     };
   }
   const githubId = userData.nickname;
+  console.log(userData);
   const githubOrgs = userData.user_metadata.github_orgs.map(org => org.toLowerCase());
-  console.log(userData, githubOrgs);
   // event.orgs.map(org => org.toLowerCase());
   const files = JSON.parse(event.body);
   let pack = files["gen.module.json"];

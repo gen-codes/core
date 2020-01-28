@@ -99,7 +99,7 @@ export default function Search(props) {
 
   return (
     <Box flexDirection={"column"}>
-      {`${props.title}:`}
+      {props.title?`${props.title}:`:""}
       <InkTextInput
         onChange={setSearch}
         onSubmit={setTerm}

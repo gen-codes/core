@@ -11,22 +11,45 @@ import SchemaForm from "@gen-codes/ink-schema-form"
 // if generator_name arg then check if 
 // generator is installed else install it
 import schema from "../../schema"
-import compiler from "@gen-codes/compiler"
+import {parseGenerator, runGenerator} from "@gen-codes/compiler"
+import path from "path";
+import {getDir} from "@gen-codes/carlo-editor-cli-plugin"
 
 
-
-function Run({filetree,template,model}) {
+function Run({inputArgs, filetree, template, model}) {
   const {genFile, modules} = usePackage()
+  const moduleFolder = path.dirname(genFile)
+  const generator = parseGenerator(moduleFolder)
+  // return JSON.stringify(generator.fileTrees)
   const genModule = fs.readJSONSync(genFile)
   const [formData, setData] = useState({})
   const [run, setRun] = useState(false)
   // return JSON.stringify(genModule)
   if(!run) {
+    if(inputArgs[1]) {
+        return <SchemaForm
+          onSubmit={(data) => {
+            setRun(true)
+            const files = runGenerator(generator, formData, generator.fileTrees[inputArgs[1]])
+          }}
+          externalEditor={getDir()}
+          onChange={(data) => {setData(data)}}
+          value={formData}
+          objectType={inputArgs[1]}
+          schema={generator.schema}
+          config={{
+            genModule
+          }}
+        />
+        // return "run:" + inputArgs[1]
+
+    }
     if(!filetree && !template && !model) {
       // choose generator or install
       return <SchemaForm
         onSubmit={(data) => {
           setRun(true)
+
         }}
         onChange={(data) => {setData(data)}}
         value={formData}
@@ -40,9 +63,9 @@ function Run({filetree,template,model}) {
 
     } else {
       // compiler({
-        
+
       // })
-      return filetree || "model:"+model
+      return "f:" + filetree || "model:" + model
     }
 
   } else {
@@ -53,9 +76,9 @@ function Run({filetree,template,model}) {
   return modules
 }
 Run.propTypes = {
-	template: PropTypes.string,
-	filetree: PropTypes.string,
-	model: PropTypes.string,
+  template: PropTypes.string,
+  filetree: PropTypes.string,
+  model: PropTypes.string,
 };
 Run.aliases = {
   template: 't',
