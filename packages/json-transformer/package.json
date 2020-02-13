@@ -1,0 +1,30 @@
+{
+  "name": "@gen-codes/json-transformer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "build": "BABEL_ENV=cjs babel src --out-dir=dist",
+    "dev": "BABEL_ENV=cjs babel src --out-dir=dist --watch",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "json-query": "2.2.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": []
+  },
+  "files": [
+    "dist"
+  ]
+}
