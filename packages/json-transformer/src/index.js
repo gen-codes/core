@@ -17,5 +17,5 @@ export default function parse(ast, rules, options){
     return newData
   },{})
 
-  return data
+  return parsedData
 }
