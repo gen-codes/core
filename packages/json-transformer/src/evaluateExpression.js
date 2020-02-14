@@ -1,27 +1,15 @@
 import jsQuery from "json-query";
 
-function jsonQuery(path, opts) {
+function jsonQuery(path, opts, helpers) {
+  console.log(helpers)
   return jsQuery(path, {
     ...opts,
     locals: {
-      // select: function(input) {
-      //   if(Array.isArray(input)) {
-      //     console.log(input, arguments);
-      //     var keys = [].slice.call(arguments, 1);
-      //     return input.map(function(item) {
-      //       return Object.keys(item).reduce(function(result, key) {
-      //         if(~keys.indexOf(key)) {
-      //           result[key] = item[key];
-      //         }
-      //         return result;
-      //       }, {});
-      //     });
-      //   }
-      // }
+      ...helpers
     }
   });
 }
-export function evaluateExpression(field, data, root) {
+export function evaluateExpression(field, data, root, helpers) {
 
   const bool = field.startsWith("!");
   if (bool) {
@@ -31,7 +19,7 @@ export function evaluateExpression(field, data, root) {
   if (subExpressions) {
     subExpressions.forEach(exprStr => {
       const expr = exprStr.match(/{(.*?)}/)[1];
-      field = field.replace(exprStr, evaluateExpression(expr, data, root));
+      field = field.replace(exprStr, evaluateExpression(expr, data, root, helpers));
     });
   }
   const inlineExpressions = field
@@ -61,7 +49,7 @@ export function evaluateExpression(field, data, root) {
   }
   const resultData = jsonQuery(field, {
     data
-  });
+  }, helpers);
   // if(field.startsWith("statements[*].expression.left")){
   //   console.log("aaaa",field, data, resultData);
 
@@ -73,9 +61,10 @@ export function evaluateExpression(field, data, root) {
     const keys = resultData.parents[0].key
     if (Array.isArray(result)) {
       if (hasParents.length === 1) {
-        newData = resultData.parents[hasParents.length + 1].value.filter((item, index) => {
-          return keys.includes(index)
-        })
+        newData = resultData.parents[hasParents.length + 1]
+          .value.filter((item, index) => {
+            return keys.includes(index)
+          })
       } else {
         newData = resultData.parents[hasParents.length].value
       }
@@ -88,7 +77,7 @@ export function evaluateExpression(field, data, root) {
     if (!parentQuery) {
       result = newData
     } else {
-      result = evaluateExpression(parentQuery, newData);
+      result = evaluateExpression(parentQuery, newData, helpers);
     }
 
   }

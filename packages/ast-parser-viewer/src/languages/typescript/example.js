@@ -1,65 +1,8 @@
 import {
   getAst
 } from "./getAst";
+import * as ts from "typescript";
 
-export const rules = {
-  interfaces: {
-    check: "statements[*kind=245]",
-    data: {
-      _value: [{
-        path: "statements[*kind=245]",
-        data: {
-          name: "name.escapedText",
-          props: [{
-            path: "members[]",
-            data: {
-              name: "name.escapedText",
-              required: "(questionToken.kind) !== 57",
-              type: "type.typeName.escapedText|type.kind",
-              description: "$.comments[end>{name.pos}&pos<={name.end}].value"
-            }
-          }]
-        }
-      }]
-    }
-  },
-  components: {
-    check: "declarations[*].type.typeName[right][escapedText=FC]",
-    data: {
-      // v: "declarations[*].type.typeName[right][*escapedText=FC].parent.parent.parent",
-      _value: [{
-        path: "declarations[*].type.typeName[right][*escapedText=FC].parent.parent.parent",
-        data: {
-          docstring: "$.comments[end>(={pos}-15)].value",
-          name: "name.escapedText",
-          args: [{path:"type.typeArguments[*]",data:{
-            name: "typeName.escapedText"
-          }}]
-        }
-      }]
-    },
-  },
-  defaultProps: {
-    check: "expression.left.name[escapedText=defaultProps]",
-    data: {
-      _value: [{
-        path: "expression.left.name[*escapedText=defaultProps].parent.parent.parent",
-        data: {
-          name: "expression.left.expression.escapedText",
-          obj: "expression.left.name.escapedText",
-          props: [{
-            path: "expression.right.properties[]",
-            data: {
-              name: "name.escapedText",
-              value: "initializer.text|initializer.kind"
-            }
-          }]
-        }
-      }]
-    }
-  }
-
-}
 const code = `
 import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -149,9 +92,74 @@ ContinueButton.defaultProps = {
   label: 'primary'
 };
 `;
+export const rules = {
+  interfaces: {
+    check: "statements[*kind=245]",
+    data: {
+      _value: [{
+        path: "statements[*kind=245]",
+        data: {
+          name: "name.escapedText",
+          props: [{
+            path: "members[]",
+            data: {
+              name: "name.escapedText",
+              required: "(questionToken.kind) !== 57",
+              type: "type.typeName.escapedText|type.kind:typescriptKind",
+              description: "$.comments[end>{name.pos}&pos<={name.end}].value"
+            }
+          }]
+        }
+      }]
+    }
+  },
+  components: {
+    check: "declarations[*].type.typeName[right][escapedText=FC]",
+    data: {
+      // v: "declarations[*].type.typeName[right][*escapedText=FC].parent.parent.parent",
+      _value: [{
+        path: "declarations[*].type.typeName[right][*escapedText=FC].parent.parent.parent",
+        data: {
+          docstring: "$.comments[end>(={pos}-15)].value",
+          name: "name.escapedText",
+          args: [{path:"type.typeArguments[*]",data:{
+            name: "typeName.escapedText"
+          }}]
+        }
+      }]
+    },
+  },
+  defaultProps: {
+    check: "expression.left.name[escapedText=defaultProps]",
+    data: {
+      _value: [{
+        path: "expression.left.name[*escapedText=defaultProps].parent.parent.parent",
+        data: {
+          name: "expression.left.expression.escapedText",
+          obj: "expression.left.name.escapedText",
+          props: [{
+            path: "expression.right.properties[]",
+            data: {
+              name: "name.escapedText",
+              value: "initializer.text|initializer.kind"
+            }
+          }]
+        }
+      }]
+    }
+  }
+
+}
+const helpers = {
+  typescriptKind: function(input) {
+    console.log("typescript")
+    return ts.SyntaxKind[input]
+  }
+}
 export default {
   ast: getAst(code),
   rules,
   getAst,
-  code
+  code,
+  helpers
 };

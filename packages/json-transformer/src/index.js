@@ -1,7 +1,7 @@
 import {traverse} from "./traverse"
 import {unflat} from "./utils"
-export default function parse(ast, rules, options){
-  const data = traverse({$:ast},rules)
+export default function parse(ast, rules, options={}){
+  const data = traverse({$:ast},rules, options.helpers)
   if(options && options.location){
     return data
   }

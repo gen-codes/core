@@ -1,7 +1,7 @@
 import jsonQuery from "json-query";
 import {extractData} from "./extractData";
 import {evaluateExpression} from "./evaluateExpression";
-export function traverse(jsonObj, rules, data = null, path = [], root) {
+export function traverse(jsonObj, rules, helpers, data = null, path = [], root) {
   if(!root) {
     root = jsonObj;
   } 
@@ -12,7 +12,7 @@ export function traverse(jsonObj, rules, data = null, path = [], root) {
         const currentPath = [...path, key].join(".");
         for(const ruleName in rules) {
           const rule = rules[ruleName];
-          const result = evaluateExpression(rule.check, value);
+          const result = evaluateExpression(rule.check, value, helpers);
           if(result) {
             if(Array.isArray(result) && !result.length) {
 
@@ -20,7 +20,8 @@ export function traverse(jsonObj, rules, data = null, path = [], root) {
               const extractedData = extractData(
                 rule.data,
                 value,
-                root
+                root,
+                helpers
               );
               if(extractedData){
                 if(!data) {
@@ -43,7 +44,7 @@ export function traverse(jsonObj, rules, data = null, path = [], root) {
           }
         }
         if(value && typeof value === "object") {
-          const innerData = traverse(value,  rules, null, [...path, key], root);
+          const innerData = traverse(value,  rules, helpers, null, [...path, key], root);
           data = {
             ...data,
             ...innerData

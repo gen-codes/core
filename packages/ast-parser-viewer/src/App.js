@@ -31,7 +31,7 @@ export default function App() {
             const dataExtracted = parse(
               astClone,
               rules[language],
-              {location:false}
+              {location:false, helpers: languages[language].helpers}
             );
             setSave(false)
             setData(dataExtracted);
