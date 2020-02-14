@@ -10,10 +10,13 @@ syntax.
 It takes as an input a rules object and the nested data.
 The rules object first checks if a query has a response. If it checks true than it matches the responses of the queries with the corresponding field.
 The query-engine is based on the json-query npm package with some additions. 
+
 `{query}` is replaced with the response of the corresponding query.
+
 `(=1+2)` is replaced with the eval if the enclosed code `(=1+2)` === `3`
 
 `!query` will return true if something is found else false 
+
 `(query) + 'Prop'` will return the evaluation of the whole string first replacing the query in parentheses.
 
 ## Example
@@ -31,7 +34,7 @@ Button.propTypes = {
   
 };
 ```
-We parse the code to AST using esprima parser and then we run json-transformer 
+We parse the code to AST using esprima parser and then run json-transformer 
 with these rules:
 ```js
 const rules = {
