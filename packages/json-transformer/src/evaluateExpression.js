@@ -1,7 +1,6 @@
 import jsQuery from "json-query";
 
 function jsonQuery(path, opts, helpers) {
-  console.log(helpers)
   return jsQuery(path, {
     ...opts,
     locals: {
