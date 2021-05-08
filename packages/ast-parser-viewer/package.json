@@ -7,7 +7,7 @@
   "dependencies": {
     "@gen-codes/json-transformer": "1.0.0",
     "esprima": "4.0.1",
-    "handlebars": "4.7.2",
+    "handlebars": "4.7.7",
     "json-query": "2.2.2",
     "prismjs": "^1.19.0",
     "react": "16.12.0",
