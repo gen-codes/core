@@ -20,7 +20,7 @@
   "dependencies": {
     "auth0": "^2.20.0",
     "is-stream": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwk-to-pem": "^2.0.2",
     "npm-registry-client": "^8.6.0",
     "tar-stream": "^2.1.0",
